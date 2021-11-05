@@ -1,9 +1,25 @@
-FROM adoptopenjdk/openjdk16:jdk-16.0.2_7-alpine-slim@sha256:4a6bde43208d64604404f5069ba273757bbeac3c9b818f622886d02768c38077
+# Step : Test and package
+FROM maven:3.8.2-openjdk-16 as builder
+WORKDIR /build
+COPY pom.xml .
+
+COPY src/ /build/src/
+COPY .git /build/.git/
+RUN mvn -B -DskipTests package
+
+# Step : Package image
+FROM openjdk:16-slim
+
+LABEL maintainer="Michael Staehler"
+
+VOLUME /tmp
 
 WORKDIR /home/app
 
-COPY target/hackathon-occd-20211112-team1-0.1.jar app.jar
+ENV JAVA_OPTS="-Duser.timezone=Europe/Berlin -Djava.security.egd=file:/dev/./urandom"
 
 EXPOSE 8080
 
-CMD java ${JAVA_OPTS} -jar app.jar
+COPY --from=builder /build/target/hackathon-occd-20211112-team1-0.1.jar /app.jar
+
+ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -jar /app.jar" ]
