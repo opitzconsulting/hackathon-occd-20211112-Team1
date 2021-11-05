@@ -6,4 +6,4 @@ COPY target/hackathon-occd-20211112-team1-0.1.jar app.jar
 
 EXPOSE 8080
 
-CMD java -noverify ${JAVA_OPTS} -jar app.jar
+CMD java ${JAVA_OPTS} -jar app.jar
