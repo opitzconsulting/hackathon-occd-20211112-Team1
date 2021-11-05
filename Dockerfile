@@ -1,14 +1,14 @@
 # Step : Test and package
-FROM maven:3.8.2-openjdk-16 as builder
+FROM 149297508447.dkr.ecr.eu-central-1.amazonaws.com/maven:3.8.2-openjdk-16 as builder
 WORKDIR /build
 COPY pom.xml .
 
 COPY src/ /build/src/
 COPY .git /build/.git/
-RUN mvn -B -DskipTests package
+RUN mvn -B -ntp -DskipTests package
 
 # Step : Package image
-FROM openjdk:16-slim
+FROM 149297508447.dkr.ecr.eu-central-1.amazonaws.com/openjdk:16-slim
 
 LABEL maintainer="Michael Staehler"
 
