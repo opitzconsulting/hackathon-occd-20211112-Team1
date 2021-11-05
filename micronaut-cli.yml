@@ -1,0 +1,6 @@
+applicationType: default
+defaultPackage: com.opitzconsulting.hackathon
+testFramework: junit
+sourceLanguage: java
+buildTool: maven
+features: [ annotation-api, app-name, http-client, java, java-application, jax-rs, jetty-server, junit, logback, lombok, maven, reactor, reactor-http-client, readme, shade, yaml ]
