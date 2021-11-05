@@ -4,6 +4,7 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws --version
+      - set -x
       - aws ecr get-login-password --region eu-central-1 | docker login --username AWS --password-stdin $AWS_ECR_ACCOUNT_ID.dkr.ecr.eu-central-1.amazonaws.com
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=build-$(echo $CODEBUILD_BUILD_ID | awk -F":" '{print $2}')
@@ -11,6 +12,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
+      - set -x
       - echo $IMAGE_REPO_NAME:latest
       - docker build -t $IMAGE_REPO_NAME:latest --build-arg AWS_ECR_ACCOUNT_ID=$AWS_ECR_ACCOUNT_ID -f  Dockerfile .
       - docker tag $IMAGE_REPO_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
@@ -19,6 +21,7 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
+      - set -x
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
