@@ -4,7 +4,7 @@ WORKDIR /build
 COPY pom.xml .
 
 COPY src/ /build/src/
-COPY .git /build/.git/
+# COPY .git /build/.git/
 RUN mvn -B -ntp -DskipTests package
 
 # Step : Package image
