@@ -19,6 +19,7 @@ phases:
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
       - echo Write image definition file...
+      # The name defined in the imagedefinitions.json must be the same as defined as 'name' in the task definition under 'containerDefinitions'
       - printf '[{"name":"hackathon", "imageUri":"%s"}]' $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest > imagedefinitions.json
       - cat imagedefinitions.json
 artifacts:
