@@ -6,14 +6,11 @@ import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 
-import java.time.LocalDateTime;
-
-@Controller("/")
-public class HelloWorldController {
+@Controller("/health")
+public class HealthController {
 
     @Get
     public HttpResponse<String> helloWorld() {
-        return HttpResponse.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN)
-                .body("Hello World. Time now: " + LocalDateTime.now());
+        return HttpResponse.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body("OK");
     }
 }

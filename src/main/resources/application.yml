@@ -1,3 +1,10 @@
 micronaut:
   application:
     name: hackathonOccd20211112Team1
+
+
+#endpoints:
+#  health:
+#    enabled: true
+#    sensitive: false # non-secured endpoint
+#    details-visible: ANONYMOUS # show details for everyone
