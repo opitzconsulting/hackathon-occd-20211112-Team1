@@ -1,4 +1,4 @@
-package com.opitzconsulting.hackathon;
+package com.opitzconsulting.hackathon.ws;
 
 import io.micronaut.websocket.WebSocketSession;
 import io.micronaut.websocket.annotation.OnClose;
