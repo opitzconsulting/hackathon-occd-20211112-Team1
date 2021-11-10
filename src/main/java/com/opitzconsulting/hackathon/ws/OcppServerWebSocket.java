@@ -28,6 +28,13 @@ public class OcppServerWebSocket {
 		if (ocppMessage.getAction().equals("BootNotification")) {
 			handleBootNotification(session, ocppMessage);
 		}
+		if (ocppMessage.getAction().equals("Authorize")) {
+			handleAuthorize(session, ocppMessage);
+		}
+	}
+	
+	private void handleAuthorize(WebSocketSession session, OcppMessage ocppMessage) {
+		session.sendSync(OcppMessageFactory.createAuthorizeConf(ocppMessage.getUniqueId()));
 	}
 	
 	private void handleBootNotification(WebSocketSession session, OcppMessage ocppMessage) {

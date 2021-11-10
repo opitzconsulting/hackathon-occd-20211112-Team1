@@ -4,6 +4,41 @@ Run ``com.opitzconsulting.hackathon.Application``
 
 Use JVM parameter ``-Dmicronaut.server.port=8180`` in order to change Micronaut HTTP server port so it does not collide with other application running.
 
+##
+Example requests
+
+Websocket client https://www.postman.com/
+
+```ws://localhost:8081/ws/CentralSystemService/{chargeBoxId}```
+
+chargeBoxId kann zB CB-4711 sein
+
+### Boot notification
+```json
+
+[
+    2,
+    "2",
+    "BootNotification",
+    {
+        "chargePointVendor": "ACME",
+        "chargePointModel": "WALLBOX"
+    }
+]
+```
+
+### Authorize
+```json
+[
+    2,
+    "3",
+    "Authorize",
+    {
+        "idTag": "0fc673"
+    }
+]
+```
+
 ## Micronaut 3.1.3 Documentation
 
 - [User Guide](https://docs.micronaut.io/3.1.3/guide/index.html)
