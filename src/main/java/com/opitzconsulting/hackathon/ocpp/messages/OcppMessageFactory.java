@@ -2,11 +2,11 @@ package com.opitzconsulting.hackathon.ocpp.messages;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import com.opitzconsulting.hackathon.ocpp.messages.payload.AuthorizationStatus;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.AuthorizeConf;
-import com.opitzconsulting.hackathon.ocpp.messages.payload.AuthorizeConf.AuthorizationStatus;
-import com.opitzconsulting.hackathon.ocpp.messages.payload.AuthorizeConf.IdTagInfo;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.BootNotificationConf;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.BootNotificationConf.Status;
+import com.opitzconsulting.hackathon.ocpp.messages.payload.IdTagInfo;
 import jakarta.inject.Singleton;
 
 @Singleton

@@ -31,9 +31,24 @@ public class OcppServerWebSocket {
 		if (ocppCall.getAction().equals("Authorize")) {
 			handleAuthorize(session, ocppCall);
 		}
+		if (ocppCall.getAction().equals("StartTransaction")) {
+			handleStartTransaction(session, ocppCall);
+		}
+		if (ocppCall.getAction().equals("StopTransaction")) {
+			handleAuthorize(session, ocppCall);
+		}
+	}
+	
+	private void handleStartTransaction(WebSocketSession session, OcppCall ocppCall) {
+		// TODO Implement me
+	}
+	
+	private void handleStopTransaction(WebSocketSession session, OcppCall ocppCall) {
+		// TODO Implement me
 	}
 	
 	private void handleAuthorize(WebSocketSession session, OcppCall ocppCall) {
+		// TODO Implement me
 		session.sendSync(OcppMessageFactory.createAuthorizeConf(ocppCall.getUniqueId()));
 	}
 	

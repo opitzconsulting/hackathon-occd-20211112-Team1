@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.Authorize;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.BootNotification;
+import com.opitzconsulting.hackathon.ocpp.messages.payload.StartTransaction;
+import com.opitzconsulting.hackathon.ocpp.messages.payload.StopTransaction;
 
 public class OcppCallDeserializer extends StdDeserializer<OcppCall> {
 	
@@ -37,6 +39,14 @@ public class OcppCallDeserializer extends StdDeserializer<OcppCall> {
 		if ("Authorize".equals(action.asText())) {
 			Authorize authorize = jp.getCodec().treeToValue(payload, Authorize.class);
 			ocppCall.setPayload(authorize);
+		}
+		if ("StartTransaction".equals(action.asText())) {
+			StartTransaction startTransaction = jp.getCodec().treeToValue(payload, StartTransaction.class);
+			ocppCall.setPayload(startTransaction);
+		}
+		if ("StopTransaction".equals(action.asText())) {
+			StopTransaction stop = jp.getCodec().treeToValue(payload, StopTransaction.class);
+			ocppCall.setPayload(stop);
 		}
 		return ocppCall;
 	}
