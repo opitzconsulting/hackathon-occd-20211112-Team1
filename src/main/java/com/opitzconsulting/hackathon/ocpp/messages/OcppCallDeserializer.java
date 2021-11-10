@@ -9,10 +9,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.Authorize;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.BootNotification;
 
-public class OcppCallDeserializer extends StdDeserializer<OcppMessage> {
+public class OcppCallDeserializer extends StdDeserializer<OcppCall> {
 	
 	public OcppCallDeserializer() {
-		super(OcppMessage.class);
+		super(OcppCall.class);
 	}
 	
 	protected OcppCallDeserializer(Class<?> vc) {
@@ -20,8 +20,8 @@ public class OcppCallDeserializer extends StdDeserializer<OcppMessage> {
 	}
 	
 	@Override
-	public OcppMessage deserialize(JsonParser jp, DeserializationContext deserializationContext) throws IOException {
-		final OcppMessage ocppCall = new OcppMessage();
+	public OcppCall deserialize(JsonParser jp, DeserializationContext deserializationContext) throws IOException {
+		final OcppCall ocppCall = new OcppCall();
 		ArrayNode node = jp.getCodec().readTree(jp);
 		final JsonNode messageTypeId = node.get(0);
 		ocppCall.setMessageTypeId(messageTypeId.asInt());

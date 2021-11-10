@@ -1,7 +1,8 @@
 package com.opitzconsulting.hackathon.ocpp.messages.payload;
 
 import java.time.Instant;
-import com.opitzconsulting.hackathon.ocpp.messages.Payload;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.opitzconsulting.hackathon.ocpp.messages.CallResultPayload;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AuthorizeConf implements Payload {
+public class AuthorizeConf implements CallResultPayload {
 	
 	IdTagInfo idTagInfo;
 	
@@ -26,7 +27,7 @@ public class AuthorizeConf implements Payload {
 	
 	public enum AuthorizationStatus {
 		
-		ACCEPTED, BLOCKED, EXPIRED, INVALID, CONCURRENTTX;
+		Accepted, Blocked, Expired, Invalid, ConcurrentTx;
 		
 	}
 	

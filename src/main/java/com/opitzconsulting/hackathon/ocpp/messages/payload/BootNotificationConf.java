@@ -1,18 +1,22 @@
 package com.opitzconsulting.hackathon.ocpp.messages.payload;
 
 import java.time.Instant;
-import com.opitzconsulting.hackathon.ocpp.messages.Payload;
+import com.opitzconsulting.hackathon.ocpp.messages.CallResultPayload;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class BootNotificationConf implements Payload {
+public class BootNotificationConf implements CallResultPayload {
 	
 	Status status;
 	Instant currentTime;
-	int heartbeatInterval;
+	int interval;
 	
-	public enum Status { ACCEPTED, PENDING, REJECTED }
+	public enum Status {
+		Accepted,
+		Pending,
+		Rejected
+	}
 	
 }

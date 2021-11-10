@@ -12,11 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @JsonFormat(shape = Shape.ARRAY)
 @JsonDeserialize(using = OcppCallDeserializer.class)
-public class OcppMessage {
+public class OcppCall {
 	
 	int messageTypeId;
 	String uniqueId;
 	String action;
-	Payload payload;
+	CallPayload payload;
 	
 }

@@ -1,7 +1,9 @@
 micronaut:
   application:
     name: hackathonOccd20211112Team1
-
+jackson:
+  serialization:
+    writeDatesAsTimestamps: false
 
 endpoints:
   health:

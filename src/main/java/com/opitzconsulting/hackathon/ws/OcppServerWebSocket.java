@@ -1,6 +1,6 @@
 package com.opitzconsulting.hackathon.ws;
 
-import com.opitzconsulting.hackathon.ocpp.messages.OcppMessage;
+import com.opitzconsulting.hackathon.ocpp.messages.OcppCall;
 import com.opitzconsulting.hackathon.ocpp.messages.OcppMessageFactory;
 import io.micronaut.websocket.WebSocketSession;
 import io.micronaut.websocket.annotation.OnClose;
@@ -19,27 +19,27 @@ public class OcppServerWebSocket {
 	}
 	
 	@OnMessage
-	public void onMessage(WebSocketSession session, OcppMessage ocppCall) {
+	public void onMessage(WebSocketSession session, OcppCall ocppCall) {
 		log.info("Receiving message {}", ocppCall);
 		handleOcppCall(session, ocppCall);
 	}
 	
-	private void handleOcppCall(WebSocketSession session, OcppMessage ocppMessage) {
-		if (ocppMessage.getAction().equals("BootNotification")) {
-			handleBootNotification(session, ocppMessage);
+	private void handleOcppCall(WebSocketSession session, OcppCall ocppCall) {
+		if (ocppCall.getAction().equals("BootNotification")) {
+			handleBootNotification(session, ocppCall);
 		}
-		if (ocppMessage.getAction().equals("Authorize")) {
-			handleAuthorize(session, ocppMessage);
+		if (ocppCall.getAction().equals("Authorize")) {
+			handleAuthorize(session, ocppCall);
 		}
 	}
 	
-	private void handleAuthorize(WebSocketSession session, OcppMessage ocppMessage) {
-		session.sendSync(OcppMessageFactory.createAuthorizeConf(ocppMessage.getUniqueId()));
+	private void handleAuthorize(WebSocketSession session, OcppCall ocppCall) {
+		session.sendSync(OcppMessageFactory.createAuthorizeConf(ocppCall.getUniqueId()));
 	}
 	
-	private void handleBootNotification(WebSocketSession session, OcppMessage ocppMessage) {
+	private void handleBootNotification(WebSocketSession session, OcppCall ocppCall) {
 		// reply with BootNotificationConf
-		session.sendSync(OcppMessageFactory.createBootNotificationConf(ocppMessage.getUniqueId()));
+		session.sendSync(OcppMessageFactory.createBootNotificationConf(ocppCall.getUniqueId()));
 	}
 	
 	@OnClose
