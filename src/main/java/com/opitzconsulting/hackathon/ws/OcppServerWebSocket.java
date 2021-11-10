@@ -1,5 +1,7 @@
 package com.opitzconsulting.hackathon.ws;
 
+import com.opitzconsulting.hackathon.ocpp.messages.OcppMessage;
+import com.opitzconsulting.hackathon.ocpp.messages.OcppMessageFactory;
 import io.micronaut.websocket.WebSocketSession;
 import io.micronaut.websocket.annotation.OnClose;
 import io.micronaut.websocket.annotation.OnMessage;
@@ -17,9 +19,20 @@ public class OcppServerWebSocket {
 	}
 	
 	@OnMessage
-	public void onMessage(WebSocketSession session, String message) {
-		log.info("Receiving message {}", message);
-		session.sendSync("[3, \"19223201\", {\"status\":\"Accepted\", \"currentTime\":\"2013-02-01T20:53:32.486Z\", \"heartbeatInterval\": 300}]");
+	public void onMessage(WebSocketSession session, OcppMessage ocppCall) {
+		log.info("Receiving message {}", ocppCall);
+		handleOcppCall(session, ocppCall);
+	}
+	
+	private void handleOcppCall(WebSocketSession session, OcppMessage ocppMessage) {
+		if (ocppMessage.getAction().equals("BootNotification")) {
+			handleBootNotification(session, ocppMessage);
+		}
+	}
+	
+	private void handleBootNotification(WebSocketSession session, OcppMessage ocppMessage) {
+		// reply with BootNotificationConf
+		session.sendSync(OcppMessageFactory.createBootNotificationConf(ocppMessage.getUniqueId()));
 	}
 	
 	@OnClose
