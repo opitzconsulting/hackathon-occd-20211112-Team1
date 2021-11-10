@@ -61,17 +61,16 @@
         </dependency>
         <dependency>
             <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micronaut</groupId>
             <artifactId>micronaut-http-client</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.micronaut</groupId>
             <artifactId>micronaut-runtime</artifactId>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.micronaut.jaxrs</groupId>
-            <artifactId>micronaut-jaxrs-server</artifactId>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -85,9 +84,8 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>io.micronaut.servlet</groupId>
-            <artifactId>micronaut-http-server-jetty</artifactId>
-            <scope>compile</scope>
+            <groupId>io.micronaut</groupId>
+            <artifactId>micronaut-http-server-netty</artifactId>
         </dependency>
         <dependency>
             <groupId>javax.annotation</groupId>
