@@ -1,3 +1,9 @@
+# OCPP 1.6J Implementation (Central System)
+
+Run ``com.opitzconsulting.hackathon.Application``
+
+Use JVM parameter ``-Dmicronaut.server.port=8180`` in order to change Micronaut HTTP server port so it does not collide with other application running.
+
 ## Micronaut 3.1.3 Documentation
 
 - [User Guide](https://docs.micronaut.io/3.1.3/guide/index.html)
