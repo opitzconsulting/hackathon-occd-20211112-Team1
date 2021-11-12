@@ -2,17 +2,23 @@ package com.opitzconsulting.hackathon.ws;
 
 import com.opitzconsulting.hackathon.ocpp.messages.OcppCall;
 import com.opitzconsulting.hackathon.ocpp.messages.OcppMessageFactory;
+import com.opitzconsulting.hackathon.ocpp.messages.payload.StartTransaction;
+import com.opitzconsulting.hackathon.service.ChargingSessionSingleton;
 import io.micronaut.websocket.WebSocketSession;
 import io.micronaut.websocket.annotation.OnClose;
 import io.micronaut.websocket.annotation.OnMessage;
 import io.micronaut.websocket.annotation.OnOpen;
 import io.micronaut.websocket.annotation.ServerWebSocket;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @ServerWebSocket(value = "/ws/CentralSystemService/{chargeBoxId}", subprotocols = "ocpp1.6")
 @Slf4j
+@RequiredArgsConstructor
 public class OcppServerWebSocket {
-	
+
+	private final ChargingSessionSingleton chargingSessionSingleton;
+
 	@OnOpen
 	public void onOpen(String chargeBoxId) {
 		log.info("Opening session for charge box {}", chargeBoxId);
@@ -37,10 +43,17 @@ public class OcppServerWebSocket {
 		if (ocppCall.getAction().equals("StopTransaction")) {
 			handleAuthorize(session, ocppCall);
 		}
+		if (ocppCall.getAction().equals("MeterValues")) {
+			handleMeterValues(session, ocppCall);
+		}
 	}
-	
-	private void handleStartTransaction(WebSocketSession session, OcppCall ocppCall) {
+
+	private void handleMeterValues(WebSocketSession session, OcppCall ocppCall) {
 		// TODO Implement me
+	}
+
+	private void handleStartTransaction(WebSocketSession session, OcppCall ocppCall) {
+		session.sendSync(chargingSessionSingleton.createChargingSession((StartTransaction) ocppCall.getPayload()));
 	}
 	
 	private void handleStopTransaction(WebSocketSession session, OcppCall ocppCall) {
