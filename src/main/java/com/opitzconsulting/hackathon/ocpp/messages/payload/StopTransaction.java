@@ -19,23 +19,6 @@ public class StopTransaction implements CallPayload {
 	Reason reason;
 	List<MeterValue> transactionData;
 	
-	@Data
-	@NoArgsConstructor
-	@AllArgsConstructor
-	public static class MeterValue {
-	
-		Instant timestamp; // timestamp of sampled meter reading
-		List<SampledValue> sampledValue; // list of samples
-	
-	}
-	
-	@Data
-	@NoArgsConstructor
-	@AllArgsConstructor
-	public static class SampledValue {
-		
-		String value; // default: raw meter reading in 'Wh'
-		
-	}
+
 	
 }

@@ -7,6 +7,7 @@ import com.opitzconsulting.hackathon.ocpp.messages.payload.AuthorizeConf;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.BootNotificationConf;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.BootNotificationConf.Status;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.IdTagInfo;
+import com.opitzconsulting.hackathon.ocpp.messages.payload.MeterValuesConf;
 import jakarta.inject.Singleton;
 
 @Singleton
@@ -20,6 +21,10 @@ public abstract class OcppMessageFactory {
 	
 	public static OcppCallResult createAuthorizeConf(String uniqueId) {
 		return new OcppCallResult(CALL_RESULT, uniqueId, new AuthorizeConf(new IdTagInfo(Instant.now().plus(30, ChronoUnit.MINUTES), "abcd4711", AuthorizationStatus.Accepted)));
+	}
+
+	public static OcppCallResult createMeterValuesConf(String uniqueId) {
+		return new OcppCallResult(CALL_RESULT, uniqueId, new MeterValuesConf());
 	}
 	
 }
