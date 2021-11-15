@@ -5,6 +5,7 @@ import com.opitzconsulting.hackathon.ocpp.messages.payload.IdTagInfo;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.StartTransaction;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.StartTransactionConf;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.StopTransaction;
+import com.opitzconsulting.hackathon.ocpp.messages.payload.StopTransactionConf;
 import com.opitzconsulting.hackathon.persistence.ChargingSession;
 import com.opitzconsulting.hackathon.persistence.ChargingSessionRepositoy;
 import jakarta.inject.Singleton;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 @Singleton
 @RequiredArgsConstructor
@@ -20,6 +22,7 @@ public class ChargingSessionSingleton {
 
     private final ChargingSessionRepositoy chargingSessionRepositoy;
 
+    @Transactional
     public StartTransactionConf createChargingSession(StartTransaction startTransaction) {
         // Create session with transaction id
         Integer transactionId = IdGenerator.generateUniqueId();
@@ -32,7 +35,7 @@ public class ChargingSessionSingleton {
                 .transactionId(transactionId)
                 .build();
 
-        chargingSessionRepositoy.save(chargingSession);
+        chargingSessionRepositoy.saveAndFlush(chargingSession);
 
         return StartTransactionConf
                 .builder()
@@ -49,8 +52,21 @@ public class ChargingSessionSingleton {
     }
 
     @Transactional
-    public void sessionEnd(StopTransaction stopTransaction) {
-        // Update session
+    public StopTransactionConf sessionEnd(StopTransaction stopTransaction) {
+        String idTag = stopTransaction.getIdTag();
+        Integer transactionId = stopTransaction.getTransactionId();
+        Integer meterStop = stopTransaction.getMeterStop();
+        OffsetDateTime chargingEnd = OffsetDateTime.ofInstant(stopTransaction.getTimestamp(), ZoneId.systemDefault());
+        ChargingSession endingSession = chargingSessionRepositoy.findByIdTag(idTag);
+        endingSession.setStopMeter(meterStop);
+        endingSession.setChargingEnd(chargingEnd);
+        chargingSessionRepositoy.update(endingSession);
+        IdTagInfo idTagInfo = IdTagInfo.builder()
+                .status(AuthorizationStatus.Accepted)
+                .parentIdTag(stopTransaction.getIdTag())
+                .build();
+        chargingSessionRepositoy.flush();
+        return StopTransactionConf.builder().idTagInfo(idTagInfo).build();
     }
 
 }

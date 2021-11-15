@@ -3,6 +3,8 @@ package com.opitzconsulting.hackathon.ws;
 import com.opitzconsulting.hackathon.ocpp.messages.OcppCall;
 import com.opitzconsulting.hackathon.ocpp.messages.OcppMessageFactory;
 import com.opitzconsulting.hackathon.ocpp.messages.payload.StartTransaction;
+import com.opitzconsulting.hackathon.ocpp.messages.payload.StopTransaction;
+import com.opitzconsulting.hackathon.ocpp.messages.payload.StopTransactionConf;
 import com.opitzconsulting.hackathon.service.ChargingSessionSingleton;
 import io.micronaut.websocket.WebSocketSession;
 import io.micronaut.websocket.annotation.OnClose;
@@ -42,6 +44,7 @@ public class OcppServerWebSocket {
 		}
 		if (ocppCall.getAction().equals("StopTransaction")) {
 			handleAuthorize(session, ocppCall);
+			handleStopTransaction(session, ocppCall);
 		}
 		if (ocppCall.getAction().equals("MeterValues")) {
 			handleMeterValues(session, ocppCall);
@@ -57,7 +60,7 @@ public class OcppServerWebSocket {
 	}
 	
 	private void handleStopTransaction(WebSocketSession session, OcppCall ocppCall) {
-		// TODO Implement me
+		session.sendSync(chargingSessionSingleton.sessionEnd((StopTransaction) ocppCall.getPayload()));
 	}
 	
 	private void handleAuthorize(WebSocketSession session, OcppCall ocppCall) {
