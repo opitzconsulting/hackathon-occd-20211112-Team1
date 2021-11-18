@@ -54,19 +54,18 @@ public class ChargingSessionSingleton {
     @Transactional
     public StopTransactionConf sessionEnd(StopTransaction stopTransaction) {
         String idTag = stopTransaction.getIdTag();
-        Integer transactionId = stopTransaction.getTransactionId();
-        Integer meterStop = stopTransaction.getMeterStop();
-        OffsetDateTime chargingEnd = OffsetDateTime.ofInstant(stopTransaction.getTimestamp(), ZoneId.systemDefault());
         ChargingSession endingSession = chargingSessionRepositoy.findByIdTag(idTag);
-        endingSession.setStopMeter(meterStop);
-        endingSession.setChargingEnd(chargingEnd);
+        endingSession.setStopMeter(stopTransaction.getMeterStop());
+        endingSession.setChargingEnd(OffsetDateTime.ofInstant(stopTransaction.getTimestamp(), ZoneId.systemDefault()));
         chargingSessionRepositoy.update(endingSession);
-        IdTagInfo idTagInfo = IdTagInfo.builder()
-                .status(AuthorizationStatus.Accepted)
-                .parentIdTag(stopTransaction.getIdTag())
-                .build();
         chargingSessionRepositoy.flush();
-        return StopTransactionConf.builder().idTagInfo(idTagInfo).build();
+        return StopTransactionConf.builder()
+                .idTagInfo(
+                        IdTagInfo.builder()
+                                .parentIdTag(idTag)
+                                .expiryDate(OffsetDateTime.now().plusHours(1).toInstant())
+                                .status(AuthorizationStatus.Accepted)
+                                .build())
+                .build();
     }
-
 }
