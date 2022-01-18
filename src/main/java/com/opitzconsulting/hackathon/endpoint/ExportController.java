@@ -6,11 +6,11 @@ import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
-import jakarta.inject.Inject;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import java.io.ByteArrayOutputStream;
-import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoField;
 
@@ -22,6 +22,9 @@ public class ExportController {
     private final ExportService exportService;
 
     @Get(value = "/download", consumes = {MediaType.MULTIPART_FORM_DATA})
+    @Operation(summary = "Starts a download of a pdf file.",
+            description = "Starts a download of a pdf file containing a list of all charging sessions persisted in the database.")
+    @Tag(name = "export")
     public HttpResponse<byte[]> downloadConsumptionReport() throws DocumentException {
         OffsetDateTime now = OffsetDateTime.now();
         String year = String.valueOf(now.getYear());

@@ -41,7 +41,7 @@ export default class VueDataTable extends Vue {
   }
 
   async created() {
-    this.chargingSessions = await axios.get("http://localhost:8080/gui/api/v1/consumption/all")
+    this.chargingSessions = await axios.get("http://localhost:8080/gui/api/v1/consumption/chargingsessions")
         .then(res => this.chargingSessions = res.data);
   }
 }

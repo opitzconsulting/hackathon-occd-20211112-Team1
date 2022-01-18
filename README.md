@@ -191,3 +191,8 @@ Response
 
 - [Micronaut Jetty Server documentation](https://micronaut-projects.github.io/micronaut-servlet/1.0.x/guide/index.html#jetty)
 
+---
+
+## Swagger REST API documentation
+
+- [REST API documentation](http://localhost:8080/swagger-ui/index.html) (Works only, if the application is already running)

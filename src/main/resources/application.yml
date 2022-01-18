@@ -12,6 +12,14 @@ micronaut:
               - http://localhost:8082
               - http://localhost:8083
               - http://localhost:8084
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
+      swagger-ui:
+        paths: classpath:META-INF/swagger/views/swagger-ui
+        mapping: /swagger-ui/**
 
 jackson:
   serialization:

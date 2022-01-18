@@ -54,7 +54,8 @@ public class ChargingSessionSingleton {
     @Transactional
     public StopTransactionConf sessionEnd(StopTransaction stopTransaction) {
         String idTag = stopTransaction.getIdTag();
-        ChargingSession endingSession = chargingSessionRepositoy.findByIdTag(idTag);
+        Integer transactionId = stopTransaction.getTransactionId();
+        ChargingSession endingSession = chargingSessionRepositoy.findByIdTagAndTransactionId(idTag, transactionId);
         endingSession.setStopMeter(stopTransaction.getMeterStop());
         endingSession.setChargingEnd(OffsetDateTime.ofInstant(stopTransaction.getTimestamp(), ZoneId.systemDefault()));
         chargingSessionRepositoy.update(endingSession);
