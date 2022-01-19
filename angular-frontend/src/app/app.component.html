@@ -1,0 +1,58 @@
+<mat-toolbar
+  ><button
+    mat-icon-button
+    (click)="sidenav.toggle()"
+    id="navigationToggleButtonId"
+  >
+    <mat-icon class="show-hover">menu</mat-icon>
+  </button>
+  Hier könnte der Header stehen
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav class="mat-elevation-z8" fxLayout="column">
+    <button
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      mat-button
+      class="menu-button"
+    >
+      <mat-icon>home</mat-icon>
+      Home
+    </button>
+    <button
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      mat-button
+      class="menu-button"
+    >
+      <mat-icon>person</mat-icon>
+      Profile
+    </button>
+    <button
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      mat-button
+      class="menu-button"
+    >
+      <mat-icon>info</mat-icon>
+      About
+    </button>
+
+    <button
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      mat-button
+      class="menu-button"
+    >
+      <mat-icon>help</mat-icon>
+      Help
+    </button>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z8" fxLayoutAlign="center center">
+      Main content here!
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
