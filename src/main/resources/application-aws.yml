@@ -1,0 +1,19 @@
+datasources:
+  default:
+    url: 'jdbc:postgresql://${DB_URL}:5432/postgres'
+    username: ${DB_USER}
+    password: ${DB_PW}
+    driverClassName: 'org.postgresql.Driver'
+jpa:
+  default:
+    schema-generate: none
+    dialect: postgres
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: none
+        show_sql: true
+flyway:
+  datasources:
+    default:
+      enabled: true
