@@ -1,0 +1,74 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  GitHubOrg:
+    Description: GitHub organization
+    Type: String
+    Default: ""
+  RepositoryName:
+    Description: GitHub repository name
+    Type: String
+    Default: ""
+  OIDCProviderArn:
+    Description: Arn for the GitHub OIDC Provider.
+    Default: ""
+    Type: String
+  EcrRepository:
+    Description: ECR repository
+    Default: ""
+    Type: String
+
+Conditions:
+  CreateOIDCProvider: !Equals
+    - !Ref OIDCProviderArn
+    - ""
+
+Resources:
+  Role:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub 'gh-${GitHubOrg}-role'
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRoleWithWebIdentity
+            Principal:
+              Federated: !If
+                - CreateOIDCProvider
+                - !Ref GithubOidc
+                - !Ref OIDCProviderArn
+            Condition:
+              StringLike:
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrg}/${RepositoryName}:*
+      Policies:
+        - PolicyName: root
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: ecr:GetAuthorizationToken
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - ecr:CompleteLayerUpload
+                  - ecr:UploadLayerPart
+                  - ecr:InitiateLayerUpload
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:PutImage
+                Resource: !Ref EcrRepository
+      Tags:
+        - Key: provider
+          Value: github
+
+  GithubOidc:
+    Type: AWS::IAM::OIDCProvider
+    Condition: CreateOIDCProvider
+    Properties:
+      Url: https://token.actions.githubusercontent.com
+      ClientIdList:
+        - sts.amazonaws.com
+      ThumbprintList:
+        - 15e29108718111e59b3dad31954647e3c344a231
+
+Outputs:
+  Role:
+    Value: !GetAtt Role.Arn
