@@ -57,10 +57,10 @@ public class GuiController {
     }
 
     @Get(value = "/chargingsessions/latestSessionByTagId/", produces = MediaType.APPLICATION_JSON)
-    @Operation(summary = "Returning all charging sessions by specified ID-Tag and latest chrging end date.",
-            description = "Returns a map with idTag as key and ChargingSession as value. The value is the session with the latest charging end date.")
+    @Operation(summary = "Returning all charging sessions with latest charging end date.",
+            description = "Returns a list with ChargingSession by tagId with latest charging end date.")
     @Tag(name = "chargingsession")
-    public HttpResponse<Map<String, ChargingSession>> findChargingSessionsByIdTag() {
+    public HttpResponse<List<ChargingSession>> findLatestChargingSessionsByIdTag() {
         return HttpResponse.ok(guiService.findNewestChargingSessionsPerTagId());
     }
 

@@ -8,8 +8,8 @@ import io.micronaut.data.exceptions.EmptyResultException;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,15 +27,15 @@ public class GuiService {
         return results;
     }
 
-    public Map<String, ChargingSession> findNewestChargingSessionsPerTagId() {
+    public List<ChargingSession> findNewestChargingSessionsPerTagId() {
         List<ChargingSession> results = chargingSessionRepositoy.findAll();
-        Map<String, ChargingSession> result = new HashMap<>();
+        List<ChargingSession> result = new ArrayList<>();
         Set<String> idTags = results.stream()
                 .map(ChargingSession::getIdTag)
                 .collect(Collectors.toSet());
         for (String idTag : idTags) {
             ChargingSession latestChargingSession = chargingSessionRepositoy.findLatestChargingSessionByIdTag(idTag);
-            result.put(idTag, latestChargingSession);
+            result.add(latestChargingSession);
         }
         return result;
     }
