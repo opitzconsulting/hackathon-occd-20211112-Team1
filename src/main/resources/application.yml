@@ -12,6 +12,8 @@ micronaut:
               - http://localhost:8082
               - http://localhost:8083
               - http://localhost:8084
+              - http://localhost:4200
+              - https://localhost:4200
   router:
     static-resources:
       swagger:
