@@ -10,14 +10,15 @@
     <parent>
         <groupId>io.micronaut</groupId>
         <artifactId>micronaut-parent</artifactId>
-        <version>3.2.6</version>
+        <version>3.2.7</version>
     </parent>
 
     <properties>
         <packaging>jar</packaging>
         <jdk.version>17</jdk.version>
         <release.version>17</release.version>
-        <micronaut.version>3.2.6</micronaut.version>
+        <micronaut.version>3.2.7</micronaut.version>
+        <lombok.version>1.18.22</lombok.version>
         <exec.mainClass>com.opitzconsulting.hackathon.Application</exec.mainClass>
         <micronaut.runtime>jetty</micronaut.runtime>
         <itext.pdf.version>5.5.13.2</itext.pdf.version>
