@@ -35,6 +35,12 @@ public class GuiService {
                 .collect(Collectors.toSet());
         for (String idTag : idTags) {
             ChargingSession latestChargingSession = chargingSessionRepositoy.findLatestChargingSessionByIdTag(idTag);
+            if (latestChargingSession.getStopMeter() != null) {
+                latestChargingSession.setConsumption(latestChargingSession.getStopMeter() - latestChargingSession
+                        .getStartMeter());
+            } else {
+                latestChargingSession.setConsumption(0);
+            }
             result.add(latestChargingSession);
         }
         return result;
