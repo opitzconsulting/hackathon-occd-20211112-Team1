@@ -8,7 +8,11 @@ import io.micronaut.data.exceptions.EmptyResultException;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Singleton
@@ -21,6 +25,19 @@ public class GuiService {
         List<ChargingSession> results = chargingSessionRepositoy.findAll();
         prepareResultsForGui(results);
         return results;
+    }
+
+    public Map<String, ChargingSession> findNewestChargingSessionsPerTagId() {
+        List<ChargingSession> results = chargingSessionRepositoy.findAll();
+        Map<String, ChargingSession> result = new HashMap<>();
+        Set<String> idTags = results.stream()
+                .map(ChargingSession::getIdTag)
+                .collect(Collectors.toSet());
+        for (String idTag : idTags) {
+            ChargingSession latestChargingSession = chargingSessionRepositoy.findLatestChargingSessionByIdTag(idTag);
+            result.put(idTag, latestChargingSession);
+        }
+        return result;
     }
 
     public List<ChargingSession> findChargingSessionsByTransactionId(Integer transactionId) {

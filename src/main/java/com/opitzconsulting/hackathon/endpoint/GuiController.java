@@ -25,6 +25,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller("/gui/api/v1/consumption")
 @RequiredArgsConstructor
@@ -53,6 +54,14 @@ public class GuiController {
     @Tag(name = "chargingsession")
     public HttpResponse<List<ChargingSession>> findChargingSessionsByIdTag(@PathVariable String idTag) {
         return HttpResponse.ok(guiService.findChargingSessionsByIdTag(idTag));
+    }
+
+    @Get(value = "/chargingsessions/latestSessionByTagId/", produces = MediaType.APPLICATION_JSON)
+    @Operation(summary = "Returning all charging sessions by specified ID-Tag and latest chrging end date.",
+            description = "Returns a map with idTag as key and ChargingSession as value. The value is the session with the latest charging end date.")
+    @Tag(name = "chargingsession")
+    public HttpResponse<Map<String, ChargingSession>> findChargingSessionsByIdTag() {
+        return HttpResponse.ok(guiService.findNewestChargingSessionsPerTagId());
     }
 
     @Get(value = "/rfidtag", produces = MediaType.APPLICATION_JSON)
