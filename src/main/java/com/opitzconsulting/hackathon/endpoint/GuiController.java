@@ -1,5 +1,6 @@
 package com.opitzconsulting.hackathon.endpoint;
 
+import com.opitzconsulting.hackathon.endpoint.dto.DailyConsumptionDto;
 import com.opitzconsulting.hackathon.endpoint.dto.RfidTagDto;
 import com.opitzconsulting.hackathon.endpoint.dto.RfidTagMapper;
 import com.opitzconsulting.hackathon.persistence.ChargingSession;
@@ -62,6 +63,13 @@ public class GuiController {
     @Tag(name = "chargingsession")
     public HttpResponse<List<ChargingSession>> findLatestChargingSessionsByIdTag() {
         return HttpResponse.ok(guiService.findNewestChargingSessionsPerTagId());
+    }
+
+    @Get(value = "/chargingsessions/dailyConsumptionsPerIdTag/{idTag}", produces = MediaType.APPLICATION_JSON)
+    @Operation(summary = "Returning daily consumptions per ID Tag.", description = "Returning daily consumptions per ID Tag.")
+    @Tag(name = "chargingsession")
+    public HttpResponse<List<DailyConsumptionDto>> calculateDailyConsumptionsPerIdTag(@PathVariable @RequestBody String idTag) {
+        return HttpResponse.ok(guiService.calculateDailyConsumption(idTag));
     }
 
     @Get(value = "/rfidtag", produces = MediaType.APPLICATION_JSON)

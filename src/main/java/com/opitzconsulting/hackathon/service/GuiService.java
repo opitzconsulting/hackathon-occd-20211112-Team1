@@ -1,5 +1,6 @@
 package com.opitzconsulting.hackathon.service;
 
+import com.opitzconsulting.hackathon.endpoint.dto.DailyConsumptionDto;
 import com.opitzconsulting.hackathon.persistence.ChargingSession;
 import com.opitzconsulting.hackathon.persistence.ChargingSessionRepositoy;
 import com.opitzconsulting.hackathon.persistence.RfidTag;
@@ -8,6 +9,12 @@ import io.micronaut.data.exceptions.EmptyResultException;
 import jakarta.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +50,25 @@ public class GuiService {
             }
             result.add(latestChargingSession);
         }
+        return result;
+    }
+
+    public List<DailyConsumptionDto> calculateDailyConsumption(String tagId) {
+        List<Object[]> dailyConsumptionDtos = chargingSessionRepositoy.calculateDailyConsumptionPerTagId(tagId);
+        List<DailyConsumptionDto> result = new ArrayList<>();
+        dailyConsumptionDtos.forEach( dc -> {
+            DailyConsumptionDto dailyConsumptionDto = DailyConsumptionDto.builder()
+                    .day((Integer) dc[0])
+                    .month((Integer) dc[1])
+                    .year((Integer) dc[2])
+                    .idTag((String) dc[3])
+                    .dailyConsumption((dc[4] == null ? BigDecimal.ZERO : (BigInteger) dc[4]).intValue())
+                    .chargingEnd(OffsetDateTime.ofInstant(Instant.ofEpochMilli(((Timestamp) dc[5]).getTime()), ZoneId.of("UTC")))
+                    .chargingStart(OffsetDateTime.ofInstant(Instant.ofEpochMilli(((Timestamp) dc[6]).getTime()), ZoneId.of("UTC")))
+                    .build();
+                result.add(dailyConsumptionDto);
+                }
+        );
         return result;
     }
 
