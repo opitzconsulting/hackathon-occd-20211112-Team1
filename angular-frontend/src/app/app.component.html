@@ -6,7 +6,7 @@
   >
     <mat-icon class="show-hover">menu</mat-icon>
   </button>
-  Hier könnte der Header stehen
+  {{ contextService.pageTitle$ | async }}
 </mat-toolbar>
 
 <mat-sidenav-container>
@@ -16,11 +16,12 @@
       fxLayoutAlign="start center"
       mat-button
       class="menu-button"
+      (click)="navigate('/ladevorgaenge')"
     >
       <mat-icon>home</mat-icon>
-      Home
+      Ladevorgänge
     </button>
-    <button
+    <!-- <button
       fxLayout="row"
       fxLayoutAlign="start center"
       mat-button
@@ -47,12 +48,9 @@
     >
       <mat-icon>help</mat-icon>
       Help
-    </button>
+    </button> -->
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="content mat-elevation-z8" fxLayoutAlign="center center">
-      Main content here!
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

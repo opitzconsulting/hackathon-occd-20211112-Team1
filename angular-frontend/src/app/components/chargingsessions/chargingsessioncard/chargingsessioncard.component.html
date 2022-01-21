@@ -1,0 +1,32 @@
+<mat-card class="rfidtag" *ngIf="chargingSession" (click)="openDetails()">
+  <mat-card-title>{{ chargingSession.idTag }}</mat-card-title>
+  <mat-card-content>
+    <div mat-subheader>Letzte Transaktion</div>
+    <mat-list>
+      <mat-list-item
+        >Start:
+        <ng-container *ngIf="chargingSession.chargingStart">{{
+          chargingSession.chargingStart | date: "dd/MM/yyyy HH:mm"
+        }}</ng-container>
+        <ng-container *ngIf="!chargingSession.chargingStart"> - </ng-container>
+      </mat-list-item>
+      <mat-list-item
+        >Ende:
+        <ng-container *ngIf="chargingSession.chargingEnd">{{
+          chargingSession.chargingEnd | date: "dd/MM/yyyy HH:mm"
+        }}</ng-container>
+        <ng-container *ngIf="!chargingSession.chargingEnd"> - </ng-container>
+      </mat-list-item>
+      <mat-list-item>
+        Verbrauch:
+        {{ chargingSession.consumption ?? "-" }}</mat-list-item
+      >
+    </mat-list>
+  </mat-card-content>
+  <mat-card-footer>
+    <mat-progress-bar
+      mode="indeterminate"
+      *ngIf="!chargingSession.chargingEnd"
+    ></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>

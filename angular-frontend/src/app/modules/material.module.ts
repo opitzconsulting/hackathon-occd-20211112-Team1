@@ -111,6 +111,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatButtonToggleModule,
     MatTreeModule,
     MatSliderModule,
+    MatProgressBarModule,
   ],
   providers: [],
   bootstrap: [],

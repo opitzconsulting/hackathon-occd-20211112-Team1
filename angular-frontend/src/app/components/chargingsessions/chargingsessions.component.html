@@ -1,0 +1,7 @@
+<div fxLayout="row wrap" fxLayoutGap="12px" class="container">
+  <app-chargingsessioncard
+    *ngFor="let chargingsession of chargingSessions"
+    [chargingSession]="chargingsession"
+    (open)="openRfidTag($event)"
+  ></app-chargingsessioncard>
+</div>
